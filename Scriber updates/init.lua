@@ -1,4 +1,5 @@
---  scriber.lua - Kuhle 2022-01-28
+--  scriber.lua - Kuhle 
+--  updated 11/30/2023
 --
 --  Buys all available spells and tomes for specified level range (default is level 1 to current level)
 --  It will not buy lower rank spells than you already have. If you have a Rk. II spell it will not buy a Rk. I of the same name, but would buy a Rk. III if available.
@@ -7,26 +8,13 @@
 --  It will loop and keep buying/scribing until all possible spells are processed or runs out of inventory space.
 --
 --  usage:
---     /lua run Scriber [minLevel [maxLevel]]
+--     /lua run Scriber
 --
---  parameters:
---     minLevel - int, optional, the minimum level of spells to consider on the merchant (default is 1)
---     maxLevel - int, optional, the maximum level of spells to consider on the merchant (default is current level)
---
---  examples:
---     /lua run scriber
---     ^^ This will buy all spells/tomes from level 1 to your current level from the current merchant
---
---     /lua run scriber 30
---     ^^ This will buy all spells/tomes from level 30 to your current level from the current merchant
---
---     /lua run Scriber 10 20
---     ^^ This will buy all spells/tomes from levels 10 to 20 from the current merchant
 --
 --  credits:
 --     The original scribe LUA written by Rouneq
 --     The original scribe macro written by Sym with updates from Chatwiththisname and Sic
--- /echo ${Me.HaveExpansion[#]}
+
 
 local mq = require('mq')
 local Write = require('Scriber.Write')
@@ -1602,7 +1590,7 @@ local function ScriberGUI()
 		Open, ShowUI = ImGui.Begin('Scriber - Letting us do the work for you, one spell at a time! (3.0)', Open)
 		ImGui.SetWindowSize(500, 500, ImGuiCond.Once)
 		if ShowUI then
-			scribe_level_range, levels_selected = ImGui.SliderInt2("Levels of Scribing", scribe_level_range, 1, 120)
+			scribe_level_range, levels_selected = ImGui.SliderInt2("Levels of Scribing", scribe_level_range, 1, 125)
 			if levels_selected then set_location_options(spell_locations, scribe_level_range) end
 			if ((scribe_level_range[1] > scribe_level_range[2]) or (scribe_level_range[2] < scribe_level_range[1])) then scribe_level_range[1] = scribe_level_range[2] end
 			if scribe_switch then
