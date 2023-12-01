@@ -204,7 +204,7 @@ local function BuySpells()
 				goto continue
 			end
 
-			mq.TLO.Merchant.SelectItem(merchantItem.Name())
+			mq.TLO.Merchant.SelectItem("="..merchantItem.Name())
 			mq.TLO.Merchant.Buy(1)
 
 			mq.delay(1000)
@@ -1587,8 +1587,8 @@ end
 
 local function ScriberGUI()
     if Open then
-		Open, ShowUI = ImGui.Begin('Scriber - Letting us do the work for you, one spell at a time! (3.0)', Open)
 		ImGui.SetWindowSize(500, 500, ImGuiCond.Once)
+		Open, ShowUI = ImGui.Begin('Scriber - Letting us do the work for you, one spell at a time! (3.0)', Open)
 		if ShowUI then
 			scribe_level_range, levels_selected = ImGui.SliderInt2("Levels of Scribing", scribe_level_range, 1, 125)
 			if levels_selected then set_location_options(spell_locations, scribe_level_range) end
@@ -1624,22 +1624,24 @@ local function ScriberGUI()
 				buy_CloudyPots = ImGui.Checkbox("Buy Cloudy Potions", buy_CloudyPots)
 			end
 			if ImGui.CollapsingHeader('Guildhall clicky and Keyring Options') then
-				ImGui.BeginTable("GuildClicky",2)
-				ImGui.TableNextColumn() umbral = ImGui.Checkbox("Umbral Plains Scrying Bowl", umbral)
-				ImGui.TableNextColumn() cobalt = ImGui.Checkbox("Skyshrine Dragon Brazier", cobalt)
-				ImGui.TableNextColumn() stratos = ImGui.Checkbox("Stratos Fire Platform", stratos)
-				ImGui.TableNextColumn() laurion = ImGui.Checkbox("Laurion's Door", laurion)
-				ImGui.EndTable()
+				if ImGui.BeginTable("GuildClicky",2) then
+					ImGui.TableNextColumn() umbral = ImGui.Checkbox("Umbral Plains Scrying Bowl", umbral)
+					ImGui.TableNextColumn() cobalt = ImGui.Checkbox("Skyshrine Dragon Brazier", cobalt)
+					ImGui.TableNextColumn() stratos = ImGui.Checkbox("Stratos Fire Platform", stratos)
+					ImGui.TableNextColumn() laurion = ImGui.Checkbox("Laurion's Door", laurion)
+					ImGui.EndTable()
+				end
 			end
 			if ImGui.CollapsingHeader('Zone Specific Options') then
-				ImGui.BeginTable("Zone Selections",2)
-				for _, value in ipairs(spell_locations) do
-					ImGui.TableNextColumn()
-					value.selected = ImGui.Checkbox(value.name, value.selected)
-					ImGui.SameLine()
-					ImGui.TextDisabled(string.format('(%d-%d)', value.min_level, value.max_level))
-				end
+				if ImGui.BeginTable("Zone Selections",2) then
+					for _, value in ipairs(spell_locations) do
+						ImGui.TableNextColumn()
+						value.selected = ImGui.Checkbox(value.name, value.selected)
+						ImGui.SameLine()
+						ImGui.TextDisabled(string.format('(%d-%d)', value.min_level, value.max_level))
+					end
 				ImGui.EndTable()
+				end
 			end
 		end
 		ImGui.End()
