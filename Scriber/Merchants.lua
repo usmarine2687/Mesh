@@ -1,4 +1,4 @@
---Spell Vendor listing by class--
+--Spell Vendor listing by location, class, and level if applicable--
 local MerchLookup = {
     poknowledge = {
         WAR = {["Heldin Swordbreaker"] = {vendormin = 1, vendormax = 90}},
