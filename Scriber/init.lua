@@ -1355,7 +1355,7 @@ local function ME2()
 			else
 				mq.cmd('/travelto guildhalllrg')
 				while TableCheck(GetMyZone(), {'guildhalllrg_int', 'guildhallsml', 'guildhall3'}) ~= true do
-					mq.delay(50)
+					mq.delay(1000)
 				end
 				--may keep going if not a large guild hall--
 				mq.cmd('/nav stop')
@@ -1623,7 +1623,7 @@ local function ScriberGUI()
 				sendmehome = ImGui.Checkbox("Send me to my bind point", sendmehome)
 				buy_CloudyPots = ImGui.Checkbox("Buy Cloudy Potions", buy_CloudyPots)
 			end
-			if ImGui.CollapsingHeader('GuildClicky and Keyring Options') then
+			if ImGui.CollapsingHeader('Guildhall clicky and Keyring Options') then
 				ImGui.BeginTable("GuildClicky",2)
 				ImGui.TableNextColumn() umbral = ImGui.Checkbox("Umbral Plains Scrying Bowl", umbral)
 				ImGui.TableNextColumn() cobalt = ImGui.Checkbox("Skyshrine Dragon Brazier", cobalt)
