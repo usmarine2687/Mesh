@@ -1,6 +1,6 @@
 --  scriber.lua - Kuhle 
---  updated 11/30/2023
---
+--  updated 12/4/23
+--  test update from git
 --  Buys all available spells and tomes for specified level range (default is level 1 to current level)
 --  It will not buy lower rank spells than you already have. If you have a Rk. II spell it will not buy a Rk. I of the same name, but would buy a Rk. III if available.
 --  When finished buying or if no windows are open, it scribes every available spell/tome found in inventory (regardless of level range given)
