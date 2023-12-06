@@ -42,7 +42,7 @@ local cobalt = false
 local stratos = false
 local laurion = false
 local lobby = false
-local Open, ShowUI = false, true
+local Open, ShowUI = true, false
 local stop_scribe = true
 local selfbuy = false
 local sendmehome = true
@@ -1552,6 +1552,7 @@ local spell_locations = {
 }
 
 local function scriber()
+
 	if mq.TLO.Macro() then
         Write.Info('\a-yTemporarily pausing macros before we act')
         mq.cmd('/squelch /mqp on')
