@@ -42,7 +42,7 @@ local cobalt = false
 local stratos = false
 local laurion = false
 local lobby = false
-local Open, ShowUI = true, true
+local Open, ShowUI = false, true
 local stop_scribe = true
 local selfbuy = false
 local sendmehome = true
@@ -808,6 +808,7 @@ local function Home()
 		while GetMyZone() ~= "guildlobby" do
 			mq.delay(1000)
 		end
+		mq.delay(1000)
 	end
 	if sendmehome then
 		if TableCheck(GetMyZone(), bindzones) == false then
@@ -864,6 +865,7 @@ local function TravSafe()
         while GetMyZone() ~= 'poknowledge' do
             mq.delay(1500)
         end
+		mq.delay(1000)
     end
 end
 
@@ -1007,6 +1009,7 @@ local function guildhall(loc)
 		while GetMyZone() ~= 'guildhall' do
 			mq.delay(5000)
 		end
+		mq.delay(1000)
 	end
 	if GetMyZone() == 'guildhall' then
         Write.Info('\aoSetting portal to \ag%s', loc)
@@ -1040,6 +1043,7 @@ local function guildhall(loc)
 		    while GetMyZone() ~= loc do
 			    mq.delay(1000)
             end
+			mq.delay(1000)
 		end
 	end
 end
@@ -1080,6 +1084,7 @@ local function TravWW()
 		while GetMyZone() ~= 'westwastestwo' do
 			mq.delay(1000)
 		end
+		mq.delay(1000)
 	end
 	::westwastesstart::
 	CastITU()
@@ -1187,6 +1192,7 @@ local function POT()
 		while GetMyZone() ~= 'potranquility' do
 			mq.delay(1000)
 		end
+		mq.delay(1000)
         Trav('potranquility')
 
         --Going back to Guild Lobby for next Zone--
@@ -1194,6 +1200,7 @@ local function POT()
 		while GetMyZone() ~= 'guildlobby' do
 			mq.delay(1000)
 		end
+		mq.delay(1000)
     end
 end
 
@@ -1237,11 +1244,13 @@ local function Strat()
 			while GetMyZone() ~= 'stratos' do
 				mq.delay(1000)
 			end
+			mq.delay(1000)
 		else
 			mq.cmd('/travelto stratos')
 			while GetMyZone() ~= 'stratos' do
 				mq.delay(1000)
 			end
+			mq.delay(1000)
 		end
         Trav('stratos')
 		CastInvis()
@@ -1256,6 +1265,7 @@ local function Strat()
 		while GetMyZone() ~= 'guildlobby' do
 			mq.delay(1000)
 		end
+		mq.delay(1000)
     end
 end
 local function EW2()
@@ -1319,6 +1329,7 @@ local function CS2()
 			while GetMyZone() ~= 'cobaltscartwo' do
 				mq.delay(1000)
 			end
+			mq.delay(1000)
 		else
         	guildhall('cobaltscartwo')
 		end
@@ -1352,6 +1363,7 @@ local function ME2()
 				while mq.TLO.Me.Casting() and GetMyZone() ~= 'umbral' do
 					mq.delay(1000)
 				end
+				mq.delay(1000)
 			else
 				mq.cmd('/travelto guildhalllrg')
 				while TableCheck(GetMyZone(), {'guildhalllrg_int', 'guildhallsml', 'guildhall3'}) ~= true do
@@ -1372,11 +1384,13 @@ local function ME2()
 				while GetMyZone() ~= 'umbral' do
 					mq.delay(1000)
 				end
+				mq.delay(1000)
 			end
 			mq.cmd('/travelto maidentwo')
 			while GetMyZone() ~= 'maidentwo' do
 				mq.delay(1000)
 			end
+			mq.delay(1000)
 		else
 			guildhall('maidentwo')
 		end
@@ -1422,11 +1436,12 @@ local function LIN()
 					end
 					mq.cmd("/click right item")
 					mq.delay(5000, function() return mq.TLO.Menu.Name() == "Laurion's Door" end)
-					mq.cmdf([[/squelch /notify "Teleport to Larion's Inn" menuselect]])
+					mq.cmdf([[/squelch /notify "Teleport to Laurion Inn" menuselect]])
 				end
 				while GetMyZone() ~= 'laurioninn' do
 					mq.delay(1000)
 				end
+				mq.delay(1000)
 			end
 		else
 			guildhall('laurioninn')
@@ -1537,14 +1552,6 @@ local spell_locations = {
 }
 
 local function scriber()
-	local args = scribe_level_range
-	if (args[1] ~= nil) then
-		MinLevel = tonumber(args[1])
-	end
-	if (args[2] ~= nil) then
-		MaxLevel = tonumber(args[2])
-	end
-
 	if mq.TLO.Macro() then
         Write.Info('\a-yTemporarily pausing macros before we act')
         mq.cmd('/squelch /mqp on')
@@ -1567,9 +1574,42 @@ local function scriber()
 	end
 	stop_scribe = true
 end
+
+local function scriberhelp()
+	Write.Info("Welcome to Scriber. The following functions are available to you. 'Help', 'gui', and the respective levels you want to scribe. I.E. /scriber 63 65")
+end
+
+local function bind_scriber(cmd,cmd2)
+	if cmd == nil or cmd == "help" then
+		scriberhelp()
+		return
+	end
+
+	if cmd == "gui" or cmd == "ui" or cmd == "show" then
+		Open = true
+		return
+	end
+
+	if tonumber(cmd) ~= nil and tonumber(cmd2) == nil then
+        cmd2 = cmd
+        MinLevel = tonumber(cmd)
+        MaxLevel = tonumber(cmd2)
+        scriber()
+        return
+    elseif tonumber(cmd) ~= nil and tonumber(cmd2) ~= nil then
+        MinLevel = tonumber(cmd)
+        Maxlevel = tonumber(cmd2)
+        scriber()
+        return
+    else
+        scriberhelp()
+        return
+    end
+end
+
 local function setup()
-	mq.bind('/scriber', scriber)
-	mq.bind('/sc', scriber)
+	mq.bind('/scriber', bind_scriber)
+	mq.bind('/sc', bind_scriber)
 end
 CheckPlugin('MQ2PortalSetter')
 CheckPlugin('MQ2Nav')
@@ -1586,7 +1626,7 @@ local function set_location_options(locations, range)
 end
 
 local function ScriberGUI()
-    if Open then
+    if ShowUI then
 		ImGui.SetWindowSize(500, 500, ImGuiCond.Once)
 		Open, ShowUI = ImGui.Begin('Scriber - Letting us do the work for you, one spell at a time! (3.0)', Open)
 		if ShowUI then
@@ -1670,7 +1710,7 @@ local inv_scribe = coroutine.create(function()
 end)
 mq.imgui.init('ScriberGUI', ScriberGUI)
 setup()
-while Open do
+while true do
 	pause_script()
 	mq.doevents()
 	if not stop_scribe then
