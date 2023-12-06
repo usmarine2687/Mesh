@@ -41,8 +41,7 @@ local umbral = false
 local cobalt = false
 local stratos = false
 local laurion = false
-local lobby = false
-local Open, ShowUI = true, false
+local Open, ShowUI = false, true
 local stop_scribe = true
 local selfbuy = false
 local sendmehome = true
@@ -715,6 +714,9 @@ local function HaveItem()
 		if clicky ~= nil then
 			HasItem = true
 			Write.Info('\agHave Item To Teleport Home \ap'..clicky)
+			if clicky == 'Bulwark of Many Portals' then
+				OldBulwark()
+			end
 		end
 		if clicky == nil then
 			Write.Info('\arDo not have \ap'..item)
@@ -1418,14 +1420,17 @@ local function LIN()
 		if laurion then
 			if mq.TLO.FindItemCount(151183)() > 0 and mq.TLO.Me.ItemReady(151183)() then
 				mq.cmd("/useitem laurion inn lute")
+				mq.delay(1000)
 				while mq.TLO.Me.Casting() and GetMyZone() ~= 'laurioninn' do
 					mq.delay(1000)
 				end
+				mq.delay(1000)
 			else
 				mq.cmd('/travelto guildhalllrg')
 				while TableCheck(GetMyZone(), {'guildhalllrg_int', 'guildhallsml', 'guildhall3'}) ~= true do
 					mq.delay(1000)
 				end
+				mq.delay(1000)
 				--may keep going if not a large guild hall--
 				mq.cmd('/nav stop')
 					if TableCheck(GetMyZone(), {'guildhalllrg_int', 'guildhallsml', 'guildhall3'}) then
@@ -1452,7 +1457,7 @@ local function LIN()
 end
 
 local spell_locations = {
-    {
+	{
 		name = 'Plane of Knowledge',
 		min_level = 1,
 		max_level = 90,
@@ -1627,9 +1632,9 @@ local function set_location_options(locations, range)
 end
 
 local function ScriberGUI()
-    if ShowUI then
+    if Open then
 		ImGui.SetWindowSize(500, 500, ImGuiCond.Once)
-		Open, ShowUI = ImGui.Begin('Scriber - Letting us do the work for you, one spell at a time! (3.0)', Open)
+		Open, ShowUI = ImGui.Begin('Scriber - Letting us do the work for you, one spell at a time! (v3.0.2)', Open)
 		if ShowUI then
 			scribe_level_range, levels_selected = ImGui.SliderInt2("Levels of Scribing", scribe_level_range, 1, 125)
 			if levels_selected then set_location_options(spell_locations, scribe_level_range) end
