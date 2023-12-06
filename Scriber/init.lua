@@ -42,7 +42,7 @@ local cobalt = false
 local stratos = false
 local laurion = false
 local lobby = false
-local Open, ShowUI = true, true
+local Open, ShowUI = true, false
 local stop_scribe = true
 local selfbuy = false
 local sendmehome = true
@@ -1537,13 +1537,6 @@ local spell_locations = {
 }
 
 local function scriber()
-	local args = scribe_level_range
-	if (args[1] ~= nil) then
-		MinLevel = tonumber(args[1])
-	end
-	if (args[2] ~= nil) then
-		MaxLevel = tonumber(args[2])
-	end
 
 	if mq.TLO.Macro() then
         Write.Info('\a-yTemporarily pausing macros before we act')
