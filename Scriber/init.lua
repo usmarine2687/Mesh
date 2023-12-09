@@ -1573,7 +1573,7 @@ local function scriber()
     end
 
 	for _, value in ipairs(spell_locations) do
-		if value.selected then
+		if value.min_level <= MaxLevel and value.max_level >= MinLevel then
 			value.action()
 		end
 	end
