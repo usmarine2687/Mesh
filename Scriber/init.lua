@@ -34,6 +34,7 @@ local MyDeity = mq.TLO.Me.Deity()
 local TopInvSlot = 22 + mq.TLO.Me.NumBagSlots()
 local MinLevel = 1
 local MaxLevel = mq.TLO.Me.Level()
+local scribe_level_range = {1, mq.TLO.Me.Level()}
 local DoLoop = true
 local Scribing = false
 local umbral = false
@@ -1555,7 +1556,7 @@ local spell_locations = {
 	}
 }
 
-local function scriber()
+local function scriber(min, max)
 
 	if mq.TLO.Macro() then
         Write.Info('\a-yTemporarily pausing macros before we act')
@@ -1573,6 +1574,10 @@ local function scriber()
     end
 
 	for _, value in ipairs(spell_locations) do
+		if min ~= nil and max ~= nil then
+			MinLevel = min
+			MaxLevel = max
+		end
 		if value.min_level <= MaxLevel and value.max_level >= MinLevel then
 			value.action()
 		end
@@ -1592,7 +1597,7 @@ local function scriberhelp()
 	Write.Info("Umbral/Cobalt/Stratos/Laurion - Turns on and off the respective guild hall clickies or keyrings")
 end
 
-local function bind_scriber(cmd,cmd2)
+local function bind_scriber(cmd, cmd2)
 	if cmd == nil or cmd == "help" then
 		scriberhelp()
 		return
@@ -1718,16 +1723,15 @@ local function bind_scriber(cmd,cmd2)
 	end
 
 	if tonumber(cmd) ~= nil and tonumber(cmd2) == nil then
-        cmd2 = cmd
-        MinLevel = tonumber(cmd)
-        MaxLevel = tonumber(cmd2)
-        scriber()
+        cmd2 = tonumber(cmd)
+		cmd = tonumber(cmd)
+        scriber(cmd, cmd2)
         return
     else
 		if tonumber(cmd) ~= nil and tonumber(cmd2) ~= nil then
-       		MinLevel = tonumber(cmd)
-			Maxlevel = tonumber(cmd2)
-    		scriber()
+			cmd = tonumber(cmd)
+			cmd2 = tonumber(cmd2)
+    		scriber(cmd, cmd2)
 		end
         return
     end
@@ -1754,9 +1758,8 @@ end
 local function ScriberGUI()
     if Open then
 		ImGui.SetWindowSize(500, 500, ImGuiCond.Once)
-		Open, ShowUI = ImGui.Begin('Scriber - Letting us do the work for you, one spell at a time! (v3.0.6)', Open)
+		Open, ShowUI = ImGui.Begin('Scriber - Letting us do the work for you, one spell at a time! (v3.0.7)', Open)
 		if ShowUI then
-			local scribe_level_range = {1, mq.TLO.Me.Level()}
 			scribe_level_range, levels_selected = ImGui.SliderInt2("Levels of Scribing", scribe_level_range, 1, 125)
 			if levels_selected then set_location_options(spell_locations, scribe_level_range) end
 			if ((scribe_level_range[1] > scribe_level_range[2]) or (scribe_level_range[2] < scribe_level_range[1])) then scribe_level_range[1] = scribe_level_range[2] end
