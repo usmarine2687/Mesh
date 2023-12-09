@@ -1581,7 +1581,15 @@ local function scriber()
 end
 
 local function scriberhelp()
-	Write.Info("Welcome to Scriber. The following functions are available to you. 'Help', 'gui', and the respective levels you want to scribe. I.E. /scriber 63 65")
+	Write.Info("Welcome to Scriber. Here are the following available commands to use with Scriber. /sc or /scriber cmd")
+	Write.Info("'/scriber 75' for single level scribing or '/sc 75 80' for multiple level scribing")
+	Write.Info("Help - shows this information you are currently seeing")
+	Write.Info("Status - Shows the current selections")
+	Write.Info("gui/ui/show - Shows or closes the UI")
+	Write.Info("Return - to return or not return to POK/guild lobby")
+	Write.Info("Cloudy - turns on and off buying cloudy potions (WAR, CLR, MNK, BER, PAL classes only)")
+	Write.Info("Buy - turns selfbuy on/off")
+	Write.Info("Umbral/Cobalt/Stratos/Laurion - Turns on and off the respective guild hall clickies or keyrings")
 end
 
 local function bind_scriber(cmd,cmd2)
@@ -1589,10 +1597,124 @@ local function bind_scriber(cmd,cmd2)
 		scriberhelp()
 		return
 	end
+	if cmd == "status" then
+
+		if Open then
+			Write.Info("UI - Open")
+		else
+			Write.Info("UI - Closed")
+		end
+
+		if buy_CloudyPots then
+			Write.Info("Buy Cloudy pots - on")
+		else
+			Write.Info("Buy Cloudy pots - off")
+		end
+
+		if sendmehome then
+			Write.Info("Return - On")
+		else
+			Write.Info("Return - Off")
+		end
+
+		if selfbuy then
+			Write.Info("Selfbuy - On")
+		else
+			Write.Info("Selfbuy - Off")
+		end
+		if umbral then
+			Write.Info("Umbral Plains - On")
+		else
+			Write.Info("Umbral Plains - Off")
+		end
+		if cobalt then
+			Write.Info("Cobalt Scar - On")
+		else
+			Write.Info("Cobalt Scar - Off")
+		end
+		if stratos then
+			Write.Info("Stratos - On")
+		else
+			Write.Info("Stratos - Off")
+		end
+		if laurion then
+			Write.Info("Laurion Inn - On")
+		else
+			Write.Info("Laurion Inn - Off")
+		end
+	end
 
 	if cmd == "gui" or cmd == "ui" or cmd == "show" then
-		Open = true
+		Open = not Open
+		if Open then
+			Write.Info("UI - Open")
+		else
+			Write.Info("UI - Closed")
+		end
 		return
+	end
+
+	if cmd == "cloudy" then
+		buy_CloudyPots = not buy_CloudyPots
+		if buy_CloudyPots then
+			Write.Info("Buy Cloudy pots - on")
+		else
+			Write.Info("Buy Cloudy pots - off")
+		end
+		return
+	end
+
+	if cmd == "return" then
+		sendmehome = not sendmehome
+		if sendmehome then
+			Write.Info("Return - On")
+		else
+			Write.Info("Return - Off")
+		end
+		return
+	end
+
+	if cmd == "buy" then
+		selfbuy = not selfbuy
+		if selfbuy then
+			Write.Info("Selfbuy - On")
+		else
+			Write.Info("Selfbuy - Off")
+		end
+		return
+	end
+
+	if cmd == "Umbral" or cmd =="Cobalt" or cmd == "Stratos" or cmd == "Laurion" then
+		if cmd == "umbral" then
+			umbral = not umbral
+			if umbral then
+				Write.Info("Umbral Plains - On")
+			else
+				Write.Info("Umbral Plains - Off")
+			end
+		elseif cmd == "Cobalt" then
+			cobalt = not cobalt
+			if cobalt then
+				Write.Info("Cobalt Scar - On")
+			else
+				Write.Info("Cobalt Scar - Off")
+			end
+		elseif cmd == "Stratos" then
+			stratos = not stratos
+			if stratos then
+				Write.Info("Stratos - On")
+			else
+				Write.Info("Stratos - Off")
+			end
+		else
+			if cmd == "Laurion" then
+				if laurion then
+					Write.Info("Laurion Inn - On")
+				else
+					Write.Info("Laurion Inn - Off")
+				end
+			end
+		end
 	end
 
 	if tonumber(cmd) ~= nil and tonumber(cmd2) == nil then
@@ -1601,13 +1723,12 @@ local function bind_scriber(cmd,cmd2)
         MaxLevel = tonumber(cmd2)
         scriber()
         return
-    elseif tonumber(cmd) ~= nil and tonumber(cmd2) ~= nil then
-        MinLevel = tonumber(cmd)
-        Maxlevel = tonumber(cmd2)
-        scriber()
-        return
     else
-        scriberhelp()
+		if tonumber(cmd) ~= nil and tonumber(cmd2) ~= nil then
+       		MinLevel = tonumber(cmd)
+			Maxlevel = tonumber(cmd2)
+    		scriber()
+		end
         return
     end
 end
@@ -1633,7 +1754,7 @@ end
 local function ScriberGUI()
     if Open then
 		ImGui.SetWindowSize(500, 500, ImGuiCond.Once)
-		Open, ShowUI = ImGui.Begin('Scriber - Letting us do the work for you, one spell at a time! (v3.0.3)', Open)
+		Open, ShowUI = ImGui.Begin('Scriber - Letting us do the work for you, one spell at a time! (v3.0.6)', Open)
 		if ShowUI then
 			local scribe_level_range = {1, mq.TLO.Me.Level()}
 			scribe_level_range, levels_selected = ImGui.SliderInt2("Levels of Scribing", scribe_level_range, 1, 125)
