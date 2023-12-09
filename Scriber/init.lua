@@ -1597,13 +1597,13 @@ local function bind_scriber(cmd,cmd2)
 
 	if tonumber(cmd) ~= nil and tonumber(cmd2) == nil then
         cmd2 = cmd
-        MinLevel = cmd
-        MaxLevel = cmd2
+        MinLevel = tonumber(cmd)
+        MaxLevel = tonumber(cmd2)
         scriber()
         return
     elseif tonumber(cmd) ~= nil and tonumber(cmd2) ~= nil then
-        MinLevel = cmd
-        Maxlevel = cmd2
+        MinLevel = tonumber(cmd)
+        Maxlevel = tonumber(cmd2)
         scriber()
         return
     else
