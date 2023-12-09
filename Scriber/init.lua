@@ -36,12 +36,11 @@ local MinLevel = 1
 local MaxLevel = mq.TLO.Me.Level()
 local DoLoop = true
 local Scribing = false
-local scribe_level_range = {MinLevel, MaxLevel}
 local umbral = false
 local cobalt = false
 local stratos = false
 local laurion = false
-local Open, ShowUI = false, true
+local Open, ShowUI = true, true
 local stop_scribe = true
 local selfbuy = false
 local sendmehome = true
@@ -1548,7 +1547,7 @@ local spell_locations = {
 		selected = true,
 		action = SVD
 	}, {
-		name = "Laurion's Inn",
+		name = "Laurion Inn",
 		min_level = 121,
 		max_level = 125,
 		selected = true,
@@ -1634,13 +1633,16 @@ end
 local function ScriberGUI()
     if Open then
 		ImGui.SetWindowSize(500, 500, ImGuiCond.Once)
-		Open, ShowUI = ImGui.Begin('Scriber - Letting us do the work for you, one spell at a time! (v3.0.2)', Open)
+		Open, ShowUI = ImGui.Begin('Scriber - Letting us do the work for you, one spell at a time! (v3.0.3)', Open)
 		if ShowUI then
+			local scribe_level_range = {1, mq.TLO.Me.Level()}
 			scribe_level_range, levels_selected = ImGui.SliderInt2("Levels of Scribing", scribe_level_range, 1, 125)
 			if levels_selected then set_location_options(spell_locations, scribe_level_range) end
 			if ((scribe_level_range[1] > scribe_level_range[2]) or (scribe_level_range[2] < scribe_level_range[1])) then scribe_level_range[1] = scribe_level_range[2] end
 			if scribe_switch then
 				if ImGui.Button('Start Scribing') then
+					MaxLevel = scribe_level_range[2]
+					MinLevel = scribe_level_range[1]
 					pause_switch = false
 					stop_scribe = false
 					scribe_switch = false
@@ -1716,6 +1718,7 @@ local inv_scribe = coroutine.create(function()
 end)
 mq.imgui.init('ScriberGUI', ScriberGUI)
 setup()
+Write.Info("Welcome to Scriber, Please use the commands '/scriber help' if further instructions are needed")
 while true do
 	pause_script()
 	mq.doevents()
