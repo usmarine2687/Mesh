@@ -34,7 +34,7 @@ local MyDeity = mq.TLO.Me.Deity()
 local TopInvSlot = 22 + mq.TLO.Me.NumBagSlots()
 local MinLevel = 1
 local MaxLevel = mq.TLO.Me.Level()
-local scribe_level_range = {1, mq.TLO.Me.Level()}
+local scribe_level_range = {mq.TLO.Me.Level() - 5, mq.TLO.Me.Level()}
 local DoLoop = true
 local Scribing = false
 local umbral = false
@@ -44,12 +44,12 @@ local laurion = false
 local Open, ShowUI = true, true
 local stop_scribe = true
 local selfbuy = false
-local sendmehome = true
+local sendmehome = false
 local levels_selected = false
 local scribe_inv = false
 local scribe_switch = true
 local pause_switch = false
-local buy_CloudyPots = true
+local buy_CloudyPots = false
 -- --------------------------------------------------------------------------------------------
 -- SUB: Event_NotGold
 -- --------------------------------------------------------------------------------------------
@@ -1578,7 +1578,7 @@ local function scriber(min, max)
 			MinLevel = min
 			MaxLevel = max
 		end
-		if value.min_level <= MaxLevel and value.max_level >= MinLevel then
+		if (value.min_level <= MaxLevel and value.max_level >= MinLevel) and value.selected then
 			value.action()
 		end
 	end
