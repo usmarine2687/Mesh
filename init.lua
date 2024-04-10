@@ -379,6 +379,7 @@ local function CloseBook()
 	if (mq.TLO.Window('SpellBookWnd').Open()) then
 		mq.TLO.Window('SpellBookWnd').DoClose()
 	end
+	if mq.TLO.Window('InventoryWindow').Open() then mq.TLO.Window('InventoryWindow').DoClose() end
 end
 
 -- --------------------------------------------------------------------------------------------
@@ -540,6 +541,8 @@ local function ScribeSpells()
 	CloseBook()
 
 	if (scribeCount == 0) then
+		if mq.TLO.Window('InventoryWindow').Open() then mq.TLO.Window('InventoryWindow').DoClose() end
+		mq.delay(1)
 		DoLoop = false
 	end
 end
@@ -1782,6 +1785,7 @@ local function ScriberGUI()
 			end
 			if not scribe_switch then
 				if ImGui.Button('Pause Scriber') then
+					if mq.TLO.Window('InventoryWindow').Open() then mq.TLO.Window('InventoryWindow').DoClose() end
 					pause_switch = true
 					scribe_switch = true
 				end
@@ -1827,6 +1831,7 @@ end
 local start_scribing = coroutine.create(function()
 	NeedPotions()
 	scriber()
+	if mq.TLO.Window('InventoryWindow').Open() then mq.TLO.Window('InventoryWindow').DoClose() end
 	scribe_switch = true
 	stop_scribe = true
 end)
@@ -1837,6 +1842,7 @@ local inv_scribe = coroutine.create(function()
 		ScribeSpells()
 	end
 	Write.Info('No more spells to scribe in Inventory')
+	if mq.TLO.Window('InventoryWindow').Open() then mq.TLO.Window('InventoryWindow').DoClose() end
 	scribe_switch = true
 	scribe_inv = false
 end)
