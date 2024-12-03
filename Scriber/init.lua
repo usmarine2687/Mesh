@@ -747,6 +747,13 @@ local function doGate()
 	mq.delay(2500)
 end
 
+local function Travelto(zone)
+	while Am_I_Moving() == false do
+		mq.cmdf('/travelto %s', zone)
+		mq.delay(5000)
+	end
+end
+
 -- Let's do Rouneq part of the build --
 
 local function Rouneq()
@@ -843,8 +850,8 @@ local function Home()
 				end
 				mq.delay(2000)
 				while TableCheck(GetMyZone(), bindzones) == false do
-					Write.Info('You\'re current zone is %s', GetMyZone())
-					Write.Info('Could not find a method to teleport back to home')
+					Write.Info('You\'re current zone is \ag%s', GetMyZone())
+					Write.Info('\arCould not find a method to teleport back to home')
 					Write.Info('If you feel this is an error, please report it to Kuhle in Discord or the discussion thread.')
 					mq.delay(15000)
 				end
@@ -859,7 +866,7 @@ end
 local function TravSafe()
     if TableCheck(GetMyZone(), walkingzone) == true then
         Write.Info('\aoYour close enough, lets walk to \agPOKnowledge')
-        mq.cmd('/travelto poknowledge')
+        Travelto('poknowledge')
         --traveling, please wait--
         while Am_I_Moving() do
             mq.delay(50)
@@ -1008,7 +1015,7 @@ end
 local function guildhall(loc)
 	local PortalSetter_Running = mq.TLO.PortalSetter.InProgress
 	if TableCheck(GetMyZone(), { loc, "guildhall"}) == false then
-		mq.cmd('/travelto guildhall')
+		Travelto('guildhall')
 		while GetMyZone() ~= 'guildhall' do
 			mq.delay(5000)
 		end
@@ -1082,8 +1089,8 @@ local function TravWW()
 				goto westwastesstart
 			end
 		end
-		mq.cmd('/travelto westwastestwo')
-		Write.Info('/arMesh in CS to WW is not perfect, if you get stuck, please head to Western Wastes')
+		Travelto('westwastestwo')
+		Write.Info('\arMesh in CS to WW is not perfect, if you get stuck, please head to Western Wastes')
 		while GetMyZone() ~= 'westwastestwo' do
 			mq.delay(1000)
 		end
@@ -1093,7 +1100,7 @@ local function TravWW()
 	CastITU()
 	mq.delay(1000)
 	while (mq.TLO.Me.Invis('undead')() == false) or (mq.TLO.Spawn('Olwen').Distance3D() < 50) do
-		Write.Info('/arNeed to be ITU to get to vendors or manaully walk near /agOlwen')
+		Write.Info('\arNeed to be ITU to get to vendors or manaully walk near \agOlwen')
 		mq.delay(5000)
 	end
 	Vendloop()
@@ -1110,7 +1117,7 @@ local function NeedPotions()
 			if mq.TLO.Me.Class.ShortName() == PotClass[i] and mq.TLO.FindItemCount(14514)() < 20 then
 				if  mq.TLO.Zone.ID() ~= 202 then
 					print('You need Cloudy Potions')
-					mq.cmd('/travelto Poknowledge')
+					Travelto('Poknowledge')
 					while mq.TLO.Navigation.Active() do
 						mq.delay(10)
 					end
@@ -1191,7 +1198,7 @@ end
 
 local function POT()
     if ((MinLevel <= 105) and (MaxLevel >= 101)) == true then
-        mq.cmd('/travelto potranquility')
+        Travelto('potranquility')
 		while GetMyZone() ~= 'potranquility' do
 			mq.delay(1000)
 		end
@@ -1199,7 +1206,7 @@ local function POT()
         Trav('potranquility')
 
         --Going back to Guild Lobby for next Zone--
-        mq.cmd('/travelto guildlobby')
+        Travelto('guildlobby')
 		while GetMyZone() ~= 'guildlobby' do
 			mq.delay(1000)
 		end
@@ -1230,7 +1237,7 @@ end
 local function Strat()
     if ((MinLevel <= 110) and (MaxLevel >= 106)) == true then
 		if stratos then
-			mq.cmd('/travelto guildhalllrg')
+			Travelto('guildhalllrg')
 			while TableCheck(GetMyZone(), {'guildhalllrg_int', 'guildhallsml', 'guildhall3'}) ~= true do
 				mq.delay(1000)
 			end
@@ -1249,7 +1256,7 @@ local function Strat()
 			end
 			mq.delay(1000)
 		else
-			mq.cmd('/travelto stratos')
+			Travelto('stratos')
 			while GetMyZone() ~= 'stratos' do
 				mq.delay(1000)
 			end
@@ -1264,7 +1271,7 @@ local function Strat()
 			mq.delay(5000)
 		end
         --Going back to Guild Lobby for next Zone--
-		mq.cmd('/travelto guildlobby')
+		Travelto('guildlobby')
 		while GetMyZone() ~= 'guildlobby' do
 			mq.delay(1000)
 		end
@@ -1286,17 +1293,17 @@ end
 
 local function GD2()
 	print('Enter GD2')
-	if mq.TLO.Me.Zone.ShortName() ~= 'eastwastestwo' then
-		guildhall('eastwastestwo')
-	end
 	if (((MinLevel <= 115) and (MaxLevel >= 111) == true) and mq.TLO.Me.Class.ShortName() == 'DRU') or (((MinLevel <= 115) and (MaxLevel >= 111) == true) and mq.TLO.Me.Class.ShortName() == 'WIZ') then
+		if mq.TLO.Me.Zone.ShortName() ~= 'eastwastestwo' then
+			guildhall('eastwastestwo')
+		end
 		CastInvis()
 		mq.delay(1000)
 		while not Am_I_Invis('normal')() do
 			Write.Info("\arYou're stuck in a loop because you're not invis!")
 			mq.delay(5000)
 		end
-		mq.cmd('/travelto greatdividetwo')
+		Travelto('greatdividetwo')
 		while mq.TLO.Navigation.Active() do
 			mq.delay(50)
 		end
@@ -1313,7 +1320,7 @@ local function CS2()
 	end
     if (((MinLevel <= 115) and (MaxLevel >= 111) == true) and mq.TLO.Me.Class.ShortName() == 'DRU') or (((MinLevel <= 115) and (MaxLevel >= 111) == true) and mq.TLO.Me.Class.ShortName() == 'WIZ') then
 		if cobalt then
-			mq.cmd('/travelto guildhalllrg')
+			Travelto('guildhalllrg')
 			while TableCheck(GetMyZone(), {'guildhalllrg_int', 'guildhallsml', 'guildhall3'}) ~= true do
 				mq.delay(50)
 			end
@@ -1368,7 +1375,7 @@ local function ME2()
 				end
 				mq.delay(1000)
 			else
-				mq.cmd('/travelto guildhalllrg')
+				Travelto('guildhalllrg')
 				while TableCheck(GetMyZone(), {'guildhalllrg_int', 'guildhallsml', 'guildhall3'}) ~= true do
 					mq.delay(1000)
 				end
@@ -1389,7 +1396,7 @@ local function ME2()
 				end
 				mq.delay(1000)
 			end
-			mq.cmd('/travelto maidentwo')
+			Travelto('maidentwo')
 			while GetMyZone() ~= 'maidentwo' do
 				mq.delay(1000)
 			end
@@ -1427,7 +1434,7 @@ local function LIN()
 				end
 				mq.delay(1000)
 			else
-				mq.cmd('/travelto guildhalllrg')
+				Travelto('guildhalllrg')
 				while TableCheck(GetMyZone(), {'guildhalllrg_int', 'guildhallsml', 'guildhall3'}) ~= true do
 					mq.delay(1000)
 				end
@@ -1629,7 +1636,7 @@ local function scriber(min, max)
 			MinLevel = min
 			MaxLevel = max
 		end
-		if value.min_level <= MaxLevel and value.max_level >= MinLevel then
+		if value.min_level <= MaxLevel and value.max_level >= MinLevel and value.selected == true then
 			value.action()
 		end
 	end
@@ -1844,7 +1851,7 @@ local function ScriberGUI()
 				if ImGui.Button('End Scriber') then
 					mq.cmd('/lua stop scriber')
 				end
-				if ImGui.Button('Scribe spells in currently in inventory') then
+				if ImGui.Button('Scribe spells currently in inventory') then
 					scribe_inv = true
 					scribe_switch = false
 				end
