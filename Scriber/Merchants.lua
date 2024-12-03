@@ -12,7 +12,7 @@ local MerchLookup = {
         MAG = {["Elementalist Somat"] = {vendormin = 1, vendormax = 25}, ["Elementalist Kaeob"] = {vendormin = 26, vendormax = 50}, ["Elementalist Padan"] = {vendormin = 51, vendormax = 60}, ["Elementalist Siewth"] = {vendormin = 61, vendormax = 70}, ["Elementalist Onaec"] = {vendormin = 71, vendormax = 80}, ["Elementalist Bartbur"] = {vendormin = 81, vendormax = 90}},
         NEC = {["Heretic Drahur"] = {vendormin = 1, vendormax = 25}, ["Heretic Elirev"] = {vendormin = 26, vendormax = 50}, ["Heretic Edalith"] = {vendormin = 51, vendormax = 60}, ["Heretic Ceikon"] = {vendormin = 61, vendormax = 70}, ["Heretic Niraf"] = {vendormin = 71, vendormax = 80}, ["Heretic Lartman"] = {vendormin = 81, vendormax = 90}},
         WIZ = {["Channeler Olaemos"] = {vendormin = 1, vendormax = 25}, ["Channeler Lariland"] = {vendormin = 26, vendormax = 50}, ["Channeler Cerakoth"] = {vendormin = 51, vendormax = 60}, ["Channeler Alyrianne"] = {vendormin = 61, vendormax = 70},  ["Channeler Keatrem"] = {vendormin = 71, vendormax = 80}, ["Channeler Larkord"] = {vendormin = 81, vendormax = 90}},
-        BRD = {["Minstrel Eoweril"] = {vendormin = 1, vendormax = 25}, ["Minstrel Joet"] = {vendormin = 26, vendormax = 50}, ["Minstrel Gwiar"] = {vendormin = 51, vendormax = 60}, ["Minstrel Silnon"] = {vendormin = 61, vendormax = 70}, ["Minstrel Cirsaelle"] = {vendormin = 71, vendormax = 80}, ["Minstrel Franchot"] = {vendormin = 81, vendormax = 90}, ["Larquin Julinok"] = {vendormin = 1, vendormax = 90}},
+        BRD = {["Minstrel Eoweril"] = {vendormin = 1, vendormax = 25}, ["Minstrel Joet"] = {vendormin = 26, vendormax = 50}, ["Minstrel Gwiar"] = {vendormin = 51, vendormax = 60}, ["Minstrel Silnon"] = {vendormin = 61, vendormax = 70}, ["Minstrel Cirsaelle"] = {vendormin = 71, vendormax = 80}, ["Minstrel Franchot"] = {vendormin = 81, vendormax = 90}, ["Larquin Julinok"] = {vendormin = 51, vendormax = 69}},
         ENC = {["Illusionist Jerup"] = {vendormin = 1, vendormax = 25}, ["Illusionist Sevat"] = {vendormin = 26, vendormax = 50}, ["Illusionist Lobaen"] = {vendormin = 51, vendormax = 60}, ["Illusionist Acored"] = {vendormin = 61, vendormax = 70}, ["Illusionist Warek"] = {vendormin = 71, vendormax = 80}, ["Illusionist Phili"] = {vendormin = 81, vendormax = 90}},
         CLR = {["Vicar Ceraen"] = {vendormin = 1, vendormax = 25}, ["Vicar Thiran"] = {vendormin = 26, vendormax = 50}, ["Vicar Delin"] = {vendormin = 51, vendormax = 60}, ["Vicar Diarin"] = {vendormin = 61, vendormax = 70}, ["Vicar Glaunn"] = {vendormin = 71, vendormax = 80}, ["Vicar Feyl"] = {vendormin = 81, vendormax = 90}},
         DRU = {["Wanderer Astobin"] = {vendormin = 1, vendormax = 25}, ["Wanderer Qenda"] = {vendormin = 26, vendormax = 50}, ["Wanderer Frardok"] = {vendormin = 51, vendormax = 60}, ["Wanderer Kedrisan"] = {vendormin = 61, vendormax = 70}, ["Wanderer Thermon"] = {vendormin = 71, vendormax = 80}, ["Wanderer Abel"] = {vendormin = 81, vendormax = 90}},
@@ -259,6 +259,24 @@ local MerchLookup = {
         CLR = {'Faustus Grotter'},
         DRU = {'Buthor Glades'},
         SHM = {'Grample Spruce'}
+    },
+    hodstock = {
+        WAR = {'Pinela Skitoon', 'Aqua Castroll'},
+        PAL = {'Pinela Skitoon', 'Aqua Castroll'},
+        SHD = {'Pinela Skitoon', 'Aqua Castroll'},
+        BST = {'Pinela Skitoon', 'Aqua Castroll', 'Graham Jalex'},
+        BER = {'Pinela Skitoon', 'Aqua Castroll'},
+        MNK = {'Pinela Skitoon', 'Aqua Castroll'},
+        RNG = {'Pinela Skitoon', 'Aqua Castroll'},
+        ROG = {'Pinela Skitoon', 'Aqua Castroll'},
+        MAG = {'Pinela Skitoon', 'Aqua Castroll', 'Graham Jalex'},
+        NEC = {'Pinela Skitoon', 'Graham Jalex'},
+        WIZ = {'Folt Primcaller', 'Pinela Skitoon', 'Graham Jalex'},
+        BRD = {'Pinela Skitoon', 'Aqua Castroll'},
+        ENC = {'Pinela Skitoon', 'Graham Jalex'},
+        CLR = {'Pinela Skitoon', 'Kirtus Ball'},
+        DRU = {'Folt Primcaller', 'Pinela Skitoon', 'Kirtus Ball'},
+        SHM = {'Pinela Skitoon', 'Kirtus Ball'}
     }
 
 }

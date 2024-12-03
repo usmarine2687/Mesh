@@ -41,6 +41,7 @@ local umbral = false
 local cobalt = false
 local stratos = false
 local laurion = false
+local hodstock = false
 local Open, ShowUI = true, true
 local stop_scribe = true
 local selfbuy = false
@@ -1455,6 +1456,50 @@ local function LIN()
 		Home()
 	end
 end
+local function HOD()
+	if mq.TLO.Me.HaveExpansion(31)() == false then
+		Write.Info("\arYou do not have the expansion for this zone!")
+		mq.cmd('/lua stop scriber')
+	end
+	if (MinLevel <= 125) and (MaxLevel >= 121) == true then
+		if hodstock then
+			if mq.TLO.FindItemCount(174135)() > 0 and mq.TLO.Me.ItemReady(174135)() then
+				mq.cmd("/useitem Aureate Figurine")
+				mq.delay(1000)
+				while mq.TLO.Me.Casting() and GetMyZone() ~= 'hodstock' do
+					mq.delay(1000)
+				end
+				mq.delay(1000)
+			else
+				mq.cmd('/travelto guildhalllrg')
+				while TableCheck(GetMyZone(), {'guildhalllrg_int', 'guildhallsml', 'guildhall3'}) ~= true do
+					mq.delay(1000)
+				end
+				mq.delay(1000)
+				--may keep going if not a large guild hall--
+				mq.cmd('/nav stop')
+					if TableCheck(GetMyZone(), {'guildhalllrg_int', 'guildhallsml', 'guildhall3'}) then
+						mq.cmdf([[/itemtarget "Aureate Dragon Ring"]])
+						mq.cmd('/nav item')
+					while mq.TLO.Navigation.Active() do
+						mq.delay(100)
+					end
+					mq.cmd("/click right item")
+					mq.delay(5000, function() return mq.TLO.Menu.Name() == "Aureate Dragon Ring" end)
+					mq.cmdf([[/squelch /notify "Teleport to Hodstock Hills" menuselect]])
+				end
+				while GetMyZone() ~= 'hodstock' do
+					mq.delay(1000)
+				end
+				mq.delay(1000)
+			end
+		else
+			guildhall('hodstock')
+		end
+		Trav('hodstock')
+		Home()
+	end
+end
 
 local spell_locations = {
 	{
@@ -1495,7 +1540,7 @@ local spell_locations = {
 		action = POT
 	}, {
 		name = 'Lceanium',
-		min_level = 101,
+		min_level = 74,
 		max_level = 105,
 		selected = true,
 		action = Lcea
@@ -1553,6 +1598,12 @@ local spell_locations = {
 		max_level = 125,
 		selected = true,
 		action = LIN
+	}, {
+		name = "Hodstock",
+		min_level = 121,
+		max_level = 125,
+		selected = true,
+		action = HOD
 	}
 }
 
@@ -1594,7 +1645,7 @@ local function scriberhelp()
 	Write.Info("Return - to return or not return to POK/guild lobby")
 	Write.Info("Cloudy - turns on and off buying cloudy potions (WAR, CLR, MNK, BER, PAL classes only)")
 	Write.Info("Buy - turns selfbuy on/off")
-	Write.Info("Umbral/Cobalt/Stratos/Laurion - Turns on and off the respective guild hall clickies or keyrings")
+	Write.Info("Umbral/Cobalt/Stratos/Laurion/Hodstock - Turns on and off the respective guild hall clickies or keyrings")
 end
 
 local function bind_scriber(cmd, cmd2)
@@ -1647,6 +1698,11 @@ local function bind_scriber(cmd, cmd2)
 		else
 			Write.Info("Laurion Inn - Off")
 		end
+		if hodstock then
+			Write.Info("Hodstock - On")
+		else
+			Write.Info("Hodstock - Off")
+		end
 	end
 
 	if cmd == "gui" or cmd == "ui" or cmd == "show" then
@@ -1689,7 +1745,12 @@ local function bind_scriber(cmd, cmd2)
 		return
 	end
 
-	if cmd == "Umbral" or cmd =="Cobalt" or cmd == "Stratos" or cmd == "Laurion" then
+	if cmd == "scribe" then
+		scribe_inv = true
+		scribe_switch = false
+	end
+
+	if cmd == "Umbral" or cmd =="Cobalt" or cmd == "Stratos" or cmd == "Laurion" or cmd == "Hodstock" then
 		if cmd == "umbral" then
 			umbral = not umbral
 			if umbral then
@@ -1711,12 +1772,20 @@ local function bind_scriber(cmd, cmd2)
 			else
 				Write.Info("Stratos - Off")
 			end
+		elseif cmd == "Laurion" then
+			laurion = not laurion
+			if laurion then
+				Write.Info("Laurion Inn - On")
+			else
+				Write.Info("Laurion Inn - Off")
+			end
 		else
-			if cmd == "Laurion" then
-				if laurion then
-					Write.Info("Laurion Inn - On")
+			if cmd == "Hodstock" then
+				hodstock = not hodstock
+				if hodstock then
+					Write.Info("Hodstock Hills - On")
 				else
-					Write.Info("Laurion Inn - Off")
+					Write.Info("Hodstock Hills - Off")
 				end
 			end
 		end
@@ -1758,7 +1827,7 @@ end
 local function ScriberGUI()
     if Open then
 		ImGui.SetWindowSize(500, 500, ImGuiCond.Once)
-		Open, ShowUI = ImGui.Begin('Scriber - Letting us do the work for you, one spell at a time! (v3.0.7)', Open)
+		Open, ShowUI = ImGui.Begin('Scriber - Letting us do the work for you, one spell at a time! (v4.0.0)', Open)
 		if ShowUI then
 			scribe_level_range, levels_selected = ImGui.SliderInt2("Levels of Scribing", scribe_level_range, 1, 125)
 			if levels_selected then set_location_options(spell_locations, scribe_level_range) end
@@ -1801,6 +1870,7 @@ local function ScriberGUI()
 					ImGui.TableNextColumn() cobalt = ImGui.Checkbox("Skyshrine Dragon Brazier", cobalt)
 					ImGui.TableNextColumn() stratos = ImGui.Checkbox("Stratos Fire Platform", stratos)
 					ImGui.TableNextColumn() laurion = ImGui.Checkbox("Laurion's Door", laurion)
+					ImGui.TableNextColumn() hodstock = ImGui.Checkbox("Aureate Dragon Ring", hodstock)
 					ImGui.EndTable()
 				end
 			end
