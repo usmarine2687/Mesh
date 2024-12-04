@@ -277,7 +277,7 @@ local MerchLookup = {
         CLR = {'Pinela Skitoon', 'Kirtus Ball'},
         DRU = {'Pinela Skitoon', 'Kirtus Ball'},
         SHM = {'Pinela Skitoon', 'Kirtus Ball'}
-    }
+    },
     toe = {
         WIZ = {'Folt Primcaller'},
         DRU = {'Folt Primcaller'}
