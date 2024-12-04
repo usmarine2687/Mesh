@@ -1507,6 +1507,62 @@ local function HOD()
 		Home()
 	end
 end
+local function TOE()
+	if (((MinLevel <= 125) and (MaxLevel >= 120) == true) and mq.TLO.Me.Class.ShortName() == 'DRU') or (((MinLevel <= 125) and (MaxLevel >= 120) == true) and mq.TLO.Me.Class.ShortName() == 'WIZ') then
+		if mq.TLO.Me.HaveExpansion(31)() == false then
+			Write.Info("\arYou do not have the expansion for this zone!")
+			mq.cmd('/lua stop scriber')
+		else
+			if hodstock then
+				if mq.TLO.FindItemCount(174135)() > 0 and mq.TLO.Me.ItemReady(174135)() then
+					mq.cmd("/useitem Aureate Figurine")
+					mq.delay(1000)
+					while mq.TLO.Me.Casting() and GetMyZone() ~= 'hodstock' do
+						mq.delay(1000)
+				end
+					mq.delay(1000)
+				else
+					mq.cmd('/travelto guildhalllrg')
+					while TableCheck(GetMyZone(), {'guildhalllrg_int', 'guildhallsml', 'guildhall3'}) ~= true do
+						mq.delay(1000)
+					end
+					mq.delay(1000)
+					--may keep going if not a large guild hall--
+					mq.cmd('/nav stop')
+						if TableCheck(GetMyZone(), {'guildhalllrg_int', 'guildhallsml', 'guildhall3'}) then
+							mq.cmdf([[/itemtarget "Aureate Dragon Ring"]])
+							mq.cmd('/nav item')
+						while mq.TLO.Navigation.Active() do
+							mq.delay(100)
+						end
+						mq.cmd("/click right item")
+						mq.delay(5000, function() return mq.TLO.Menu.Name() == "Aureate Dragon Ring" end)
+						mq.cmdf([[/squelch /notify "Teleport to Hodstock Hills" menuselect]])
+					end
+					while GetMyZone() ~= 'hodstock' do
+						mq.delay(1000)
+					end
+					mq.delay(1000)
+				end
+			else
+				guildhall('hodstock')
+			end
+			mq.cmd('/nav spawn npc "Torin')
+			while Am_I_Moving() do
+				mq.delay(1000)
+			end
+			mq.cmd('/target Torin')
+			mq.delay(1000)
+			mq.cmd('/say get on')
+			while not mq.TLO.Zone.ShortName() == 'toe' do
+				mq.delay(1000)
+			end
+			Trav('toe')
+			Home()
+		end
+	end
+end
+
 
 local spell_locations = {
 	{
@@ -1611,6 +1667,12 @@ local spell_locations = {
 		max_level = 125,
 		selected = true,
 		action = HOD
+	}, {
+		name = "Eternity",
+		min_level = 121,
+		max_level = 125,
+		selected = true,
+		action = TOE
 	}
 }
 

@@ -271,14 +271,17 @@ local MerchLookup = {
         ROG = {'Pinela Skitoon', 'Aqua Castroll'},
         MAG = {'Pinela Skitoon', 'Aqua Castroll', 'Graham Jalex'},
         NEC = {'Pinela Skitoon', 'Graham Jalex'},
-        WIZ = {'Folt Primcaller', 'Pinela Skitoon', 'Graham Jalex'},
+        WIZ = {'Pinela Skitoon', 'Graham Jalex'},
         BRD = {'Pinela Skitoon', 'Aqua Castroll'},
         ENC = {'Pinela Skitoon', 'Graham Jalex'},
         CLR = {'Pinela Skitoon', 'Kirtus Ball'},
-        DRU = {'Folt Primcaller', 'Pinela Skitoon', 'Kirtus Ball'},
+        DRU = {'Pinela Skitoon', 'Kirtus Ball'},
         SHM = {'Pinela Skitoon', 'Kirtus Ball'}
     }
-
+    toe = {
+        WIZ = {'Folt Primcaller'},
+        DRU = {'Folt Primcaller'}
+    }
 }
 
 return MerchLookup
